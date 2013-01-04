@@ -10,12 +10,14 @@ page = agent.get('http://www.google.com')
 form = page.form('f')
 form.q = searchStrings[0].to_s
 page = agent.submit(form, form.buttons.first)
-page.search('cite').each do |link|
-	if link.to_s =~ /legalzoom/
-		pp 'advertisement'
-	else
-		#here we would write to a file instead of printing to console
-		pp link.text.to_s
+pageCount.each do
+	page.search('cite').each do |link|
+		if link.to_s =~ /legalzoom/
+			pp 'advertisement'
+		else
+			#here we would write to a file instead of printing to console
+			pp link.text.to_s
+		end
 	end
+	page = page.links_with(:text => 'Next')[0].click
 end
-pp page.links_with(:text => 'Next')
